@@ -3,10 +3,7 @@
   "version": "2.0.0",
   "description": "BizSuite — Invoice & Tender Manager for Indian SMEs",
   "main": "main.js",
-  "author": {
-    "name": "BizSuite",
-    "email": "admin@bizsuite.app"
-  },
+  "author": { "name": "BizSuite", "email": "admin@bizsuite.app" },
   "license": "MIT",
   "scripts": {
     "start": "electron .",
@@ -21,21 +18,17 @@
     "appId": "com.bizsuite.app",
     "productName": "BizSuite",
     "copyright": "Copyright 2026",
-    "directories": {
-      "output": "dist"
-    },
+    "directories": { "output": "dist" },
     "files": [
       "main.js",
       "preload.js",
       "src/**/*"
     ],
+    "extraResources": [
+      { "from": "src", "to": "src", "filter": ["**/*"] }
+    ],
     "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": ["x64"]
-        }
-      ],
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
       "requestedExecutionLevel": "asInvoker"
     },
     "nsis": {
