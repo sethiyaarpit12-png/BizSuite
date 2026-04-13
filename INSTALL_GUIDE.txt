@@ -1,0 +1,158 @@
+# BizSuite Desktop — How to Build & Install the .exe
+
+## What You Get
+- ✅ Offline desktop app (.exe installer for Windows)
+- ✅ Mobile access via browser on same WiFi (no app install on phone)
+- ✅ Data stays SAME on both PC and phone — auto syncs
+- ✅ Works without internet
+
+---
+
+## Step 1 — Install Node.js on Your PC
+
+1. Go to: **https://nodejs.org**
+2. Download the **LTS version** (big green button)
+3. Install it (keep all defaults, click Next → Next → Finish)
+4. To verify: Open **Command Prompt** → type `node --version` → should show a version number
+
+---
+
+## Step 2 — Copy the Project to Your PC
+
+1. Extract the ZIP file you downloaded from Claude
+2. Move the `BizSuite-Desktop` folder to a location like:
+   ```
+   D:\BizSuite-Desktop\
+   ```
+
+---
+
+## Step 3 — Open Command Prompt in the Folder
+
+1. Open File Explorer → go to `D:\BizSuite-Desktop\`
+2. Click the address bar at the top → type `cmd` → press Enter
+3. A black Command Prompt window opens **inside that folder**
+
+---
+
+## Step 4 — Install Dependencies
+
+Type this command and press Enter:
+```
+npm install
+```
+Wait 2-3 minutes. It downloads Electron automatically.
+
+---
+
+## Step 5 — Test It First (Run Without Installing)
+
+```
+npm start
+```
+BizSuite app window should open! Test everything works.
+
+---
+
+## Step 6 — Build the .exe Installer
+
+```
+npm run build-win
+```
+Wait 5-10 minutes. When done, you'll find:
+```
+D:\BizSuite-Desktop\dist\BizSuite Setup 2.0.0.exe
+```
+
+---
+
+## Step 7 — Install the App
+
+1. Double-click `BizSuite Setup 2.0.0.exe`
+2. Choose install location (default is fine)
+3. Click Install → Finish
+4. BizSuite shortcut appears on your Desktop!
+
+---
+
+## Using Mobile Sync (Phone + PC same data)
+
+### On your PC:
+1. Open BizSuite (desktop app)
+2. At the bottom bar you'll see:
+   ```
+   📱 Mobile: Open browser on phone → http://192.168.1.X:9876
+   ```
+3. Or go to Menu → **Mobile Sync → Show Mobile URL**
+
+### On your Phone:
+1. Connect phone to **same WiFi** as your PC
+2. Open Chrome/Safari on phone
+3. Type the URL shown on PC (e.g. `http://192.168.1.5:9876`)
+4. BizSuite opens on phone — data automatically syncs with PC!
+
+### How sync works:
+```
+PC (Desktop App) ←──WiFi──→ Phone (Browser)
+      ↑                           ↑
+  Saves to file            Saves to PC file
+  every 3 sec              via local server
+```
+- Changes on PC → phone sees them in seconds
+- Changes on phone → PC updates instantly
+- If internet is off on phone but WiFi is on → still syncs!
+
+---
+
+## Data Location on PC
+
+Your data (all invoices, firms, tenders) is saved here:
+```
+C:\Users\YourName\AppData\Roaming\BizSuite\BizSuiteData\bizsuite_data.json
+```
+
+To find it: Menu → **BizSuite → Open Data Folder**
+
+**Back this file up to D:\Invoices\Backups\ regularly!**
+
+---
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|---|---|
+| Ctrl+N | New Invoice |
+| Ctrl+R | Records |
+| Ctrl+Enter | Save Invoice |
+| Ctrl+P | Generate PDF |
+| F11 | Full Screen |
+| F12 | Developer Tools |
+| Ctrl++ / Ctrl+- | Zoom In/Out |
+
+---
+
+## Troubleshooting
+
+**"npm is not recognized"**
+→ Node.js not installed. Redo Step 1 and restart Command Prompt.
+
+**App opens but is blank**
+→ In Command Prompt run `npm start` and look for error messages.
+
+**Phone can't connect**
+→ Make sure phone and PC are on the SAME WiFi network (not mobile data on phone).
+
+**Windows Defender blocks the .exe**
+→ Click "More info" → "Run anyway". This happens because the app isn't signed (costs money). It's safe.
+
+**Data not showing on phone**
+→ Click the 🔄 Sync Now button on the mobile page.
+
+---
+
+## Updating the App
+
+When you get a new `BizSuite_Enhanced.html` from Claude:
+1. Replace `D:\BizSuite-Desktop\src\index.html` with the new file
+2. Run `npm run build-win` again to rebuild the .exe
+3. Or just run `npm start` to use the updated version without reinstalling

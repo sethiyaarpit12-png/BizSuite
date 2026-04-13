@@ -1,0 +1,70 @@
+name: Build BizSuite .exe
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # allows manual trigger from GitHub website
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Windows .exe
+        run: npm run build-win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload .exe as downloadable artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BizSuite-Windows-Installer
+          path: dist/*.exe
+          retention-days: 30
+
+      - name: Create GitHub Release
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v2.0.${{ github.run_number }}
+          name: BizSuite v2.0.${{ github.run_number }}
+          body: |
+            ## BizSuite Desktop — Windows Installer
+
+            ### Download
+            👇 Click the `.exe` file below to download and install
+
+            ### What's included
+            - ✅ Offline desktop app (no internet needed)
+            - ✅ Mobile sync via WiFi — open on phone browser, same data as PC
+            - ✅ GST Invoice generator for 2 companies
+            - ✅ Tender / PO Tracker with auto-link to invoices
+            - ✅ PDF export named by company
+
+            ### How to use mobile sync
+            1. Open BizSuite on your PC
+            2. Look at the bottom bar — it shows your phone URL like `http://192.168.1.X:9876`
+            3. Connect phone to same WiFi → open that URL in phone browser
+            4. Data syncs automatically!
+
+            ### Installation
+            1. Download `BizSuite-Setup-2.0.exe`
+            2. If Windows shows a warning → click **More info → Run anyway**
+            3. Install → Desktop shortcut created!
+          files: dist/*.exe
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
